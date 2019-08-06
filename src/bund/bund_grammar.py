@@ -1,8 +1,8 @@
 bund_grammar="""
 BundContexts:
-  history*=HistoryElement
-  env*=EnvironmentElement
-  contexts+=Context
+  history*=HistoryElement?
+  env*=EnvironmentElement?
+  contexts*=Context?
 ;
 
 HistoryElement:
@@ -12,7 +12,7 @@ HistoryElement:
 ;
 
 HistoryElementKV:
-  ID 'is' BASETYPE
+  name=ID 'is' he_val=BASETYPE
 ;
 
 EnvironmentElement:
@@ -147,4 +147,3 @@ Comment:
   /\/\*.*\*\/|\/\/.*$/
 ;
 """
-
