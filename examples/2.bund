@@ -1,0 +1,15 @@
+/* This is a simple example #2 */
+
+[history
+  owner is "Vladimir Ulogov"
+;;
+
+First is
+  [data
+    Hello  <- "World"
+    Answer <- 42
+    PI     <- 3.14
+    TheLst <- [0,1,2,3]
+    TheHsh <- {Val1 <- 0, Val2 <- 1}
+  ;;
+;;

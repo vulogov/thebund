@@ -16,4 +16,3 @@ class BundGrammarHistory:
                     helement[he.name] = he.he_val
                 helist.append(helement)
             self.history[mm] = helist
-        print (self.history)
