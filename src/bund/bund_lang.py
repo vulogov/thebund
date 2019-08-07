@@ -24,5 +24,6 @@ if __name__ == '__main__':
     bg = BundGrammar()
     bg.model("1", open("../../examples/1.bund").read())
     bg.model("2", open("../../examples/2.bund").read())
+    bg.model("3", open("../../examples/3.bund").read())
     bg.process_history()
     bg.process_context()

@@ -16,5 +16,8 @@ class BundGrammarCtx:
                     if statement.__class__.__name__ == 'DataBlock':
                         for d in statement.definitions:
                             _ctx.registerData(d.name, d.value)
+                    if statement.__class__.__name__ == 'VarBlock':
+                        for d in statement.definitions:
+                            _ctx.registerVar(d.name, d.value)
                     else:
                         pass

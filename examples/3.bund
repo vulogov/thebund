@@ -1,0 +1,12 @@
+/* This is a simple example #2 */
+
+[history
+  owner is "Vladimir Ulogov"
+;;
+
+Second is
+  [var
+    VAR <- 0,
+    0.0 -> VARFLOAT
+  ;;
+;;

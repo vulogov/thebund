@@ -32,13 +32,19 @@ Context:
 ;
 
 Statement:
-  DataBlock | CodeBlockDecl | InBlockDecl | OutBlockDecl | VarBlockDecl
+  DataBlock | CodeBlockDecl | InBlockDecl | OutBlockDecl | VarBlock
 ;
 
 DataBlock:
   '[data'
     definitions+=DataDefinitions[/,|;|(\s)*|(\n)*/]
     codeblock=CodeBlock?
+  ';;'
+;
+
+VarBlock:
+  '[var'
+    definitions+=DataDefinitions[/,|;|(\s)*|(\n)*/]
   ';;'
 ;
 
@@ -70,12 +76,6 @@ ChannelType:
 
 ChannelAttrs:
   name=ID '<-' val=BASETYPE
-;
-
-VarBlockDecl:
-  '[var'
-    PushAssignment | PullAssignment
-  ';;'
 ;
 
 DataDefinitions:
