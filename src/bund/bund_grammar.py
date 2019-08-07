@@ -95,7 +95,7 @@ List:
 ;
 
 KVData:
-  name=ID '<-' Data
+  name=ID '<-' value=Data
 ;
 
 KV:

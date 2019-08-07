@@ -14,7 +14,7 @@ class BundGrammar(BundGrammarHistory,
     BundGrammarCtx):
     def __init__(self):
         self.tx = bund_grammar
-        self.meta_model = metamodel_from_str(self.tx)
+        self.meta_model = metamodel_from_str(self.tx, ignore_case=True)
         self.models = {}
     def model(self, name, model):
         self.models[name] = self.meta_model.model_from_str(model)
@@ -23,4 +23,6 @@ class BundGrammar(BundGrammarHistory,
 if __name__ == '__main__':
     bg = BundGrammar()
     bg.model("1", open("../../examples/1.bund").read())
+    bg.model("2", open("../../examples/2.bund").read())
     bg.process_history()
+    bg.process_context()
