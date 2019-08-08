@@ -8,17 +8,21 @@ from BundGrammarHistory import BundGrammarHistory
 from BundGrammarData import BundGrammarData
 from BundGrammarCtx import BundGrammarCtx
 from BundGrammarModule import BundGrammarModule
+from BundGrammarQueue import BundGrammarQueue
 
 
 class BundGrammar(BundGrammarHistory,
     BundGrammarData,
     BundGrammarCtx,
-    BundGrammarModule):
+    BundGrammarModule,
+    BundGrammarQueue):
     def __init__(self):
         self.tx = bund_grammar
         self.meta_model = metamodel_from_str(self.tx, ignore_case=True)
         self.models = {}
         BundGrammarCtx.__init__(self)
+        BundGrammarQueue.__init__(self)
+
     def model(self, name, model):
         self.models[name] = self.meta_model.model_from_str(model)
 

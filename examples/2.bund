@@ -11,8 +11,10 @@ First is
     PI     <- 3.14,
     TheLst <- [0,1,2,3],
     TheHsh <- {Val1 <- 0, Val2 <- 1, Val3 <- [[1,2], {Val3 <- 2}]}
+
   ;;
   [Data
-    12 -> VALUE
+    12 -> VALUE,
+    BOOLVAL <- True
   ;;
 ;;

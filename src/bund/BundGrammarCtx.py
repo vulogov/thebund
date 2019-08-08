@@ -14,7 +14,6 @@ class BundGrammarCtx:
                     if ei.type.lower() == 'module':
                         self.loadModule(ei.name, ei.param, ei.real_name)
                     elif ei.type.lower() == 'python':
-                        print(ei.name)
                         self.loadPythonModule(ei.name, ei.param, ei.real_name)
                     else:
                         pass

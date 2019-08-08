@@ -18,5 +18,6 @@ class BundGrammarModule:
             except ModuleNotFoundError:
                 return False
             self.registerModule(r_name, m)
+        return True
     def loadModule(self, name, param, r_name):
         return True
