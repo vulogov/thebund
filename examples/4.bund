@@ -1,0 +1,10 @@
+/* This is a simple example #1 */
+
+[history
+  owner is "Vladimir Ulogov"
+;;
+
+[env
+  time   is module
+  string is module["../../examples/string.bund"]
+;;

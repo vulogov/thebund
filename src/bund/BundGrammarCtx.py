@@ -4,10 +4,16 @@
 from BundCtx import BundCtx
 
 class BundGrammarCtx:
-    def process_context(self):
+    def __init__(self):
         self.ctx = BundCtx()
+    def process_environment(self):
+        for mm in self.models:
+            model = self.models[mm]
+            for e in model.env:
+                for ei in e.envstatement:
+                    if ei.type.lower() == 'module':
+                        self.loadModule(ei.name, ei.param)
     def process_context(self):
-        self.ctx = BundCtx()
         for mm in self.models:
             model = self.models[mm]
             for ctx in model.contexts:
