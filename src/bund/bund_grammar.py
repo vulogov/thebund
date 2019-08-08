@@ -29,10 +29,6 @@ EnvStatementType:
   "module" | "python"
 ;
 
-EnvName:
-  name+=ID['.']
-;
-
 Context:
   name=ID 'is'
     statements+=Statement
@@ -74,12 +70,12 @@ OutBlockDecl:
 
 ChannelDefs:
   name=ID "is" type=ChannelType
-    attrs *= ChannelAttrs[/,|;|(\s)*|(\n)*/]
+    attrs += ChannelAttrs[/,|;|(\s)*|(\n)*/]
   ";;"
 ;
 
 ChannelType:
-  "file" | "pipe"
+  "file" | "pipe" | "list" | "queue"
 ;
 
 ChannelAttrs:
@@ -124,7 +120,7 @@ CodeBlockRef:
 ;
 
 CodeWords:
-  Data | CodeWord | CodeWordWRef | CodeWordSpecial | CodeBlock | CodeBlockRef | CodeWordWReferenceOnModule
+  Data | CodeWord | CodeWordCmd | CodeWordWRef | CodeWordSpecial | CodeBlock | CodeBlockRef | CodeWordWReferenceOnModule
 ;
 
 CodeWordModifyer:
@@ -145,6 +141,10 @@ CodeWordRef:
 
 CodeWord:
   prefix=CodeWordModifyer? word=ID? suffix=CodeWordModifyer? param=CurryParam?
+;
+
+CodeWordCmd:
+  "(" cmd=CodeWordModifyer ")"
 ;
 
 CodeWordWReferenceOnModule:

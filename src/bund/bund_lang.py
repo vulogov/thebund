@@ -5,14 +5,12 @@
 from textx import metamodel_from_str
 from bund_grammar import bund_grammar
 from BundGrammarHistory import BundGrammarHistory
-from BundGrammarData import BundGrammarData
 from BundGrammarCtx import BundGrammarCtx
 from BundGrammarModule import BundGrammarModule
 from BundGrammarQueue import BundGrammarQueue
 
 
 class BundGrammar(BundGrammarHistory,
-    BundGrammarData,
     BundGrammarCtx,
     BundGrammarModule,
     BundGrammarQueue):
@@ -22,7 +20,6 @@ class BundGrammar(BundGrammarHistory,
         self.models = {}
         BundGrammarCtx.__init__(self)
         BundGrammarQueue.__init__(self)
-
     def model(self, name, model):
         self.models[name] = self.meta_model.model_from_str(model)
 
