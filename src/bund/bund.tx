@@ -1,7 +1,7 @@
 BundContexts:
-  history*=HistoryElement
-  env*=EnvironmentElement
-  contexts+=Context
+  history*=HistoryElement?
+  env*=EnvironmentElement?
+  contexts*=Context?
 ;
 
 HistoryElement:
@@ -11,7 +11,7 @@ HistoryElement:
 ;
 
 HistoryElementKV:
-  ID 'is' BASETYPE
+  name=ID 'is' he_val=BASETYPE
 ;
 
 EnvironmentElement:
@@ -21,7 +21,15 @@ EnvironmentElement:
 ;
 
 EnvStatement:
-  name=ID "is" type=ID("[" param=BASETYPE "]")?
+  name=/\w+(\.\w+)*/ "is" type=EnvStatementType("[" param=BASETYPE "]")? ("as" real_name=ID)?
+;
+
+EnvStatementType:
+  "module" | "python"
+;
+
+EnvName:
+  name+=ID['.']
 ;
 
 Context:
@@ -31,13 +39,19 @@ Context:
 ;
 
 Statement:
-  DataBlock | CodeBlockDecl | InBlockDecl | OutBlockDecl | VarBlockDecl
+  DataBlock | CodeBlockDecl | InBlockDecl | OutBlockDecl | VarBlock
 ;
 
 DataBlock:
   '[data'
     definitions+=DataDefinitions[/,|;|(\s)*|(\n)*/]
     codeblock=CodeBlock?
+  ';;'
+;
+
+VarBlock:
+  '[var'
+    definitions+=DataDefinitions[/,|;|(\s)*|(\n)*/]
   ';;'
 ;
 
@@ -71,12 +85,6 @@ ChannelAttrs:
   name=ID '<-' val=BASETYPE
 ;
 
-VarBlockDecl:
-  '[var'
-    PushAssignment | PullAssignment
-  ';;'
-;
-
 DataDefinitions:
   PushAssignment | PullAssignment
 ;
@@ -94,7 +102,7 @@ List:
 ;
 
 KVData:
-  name=ID '<-' Data
+  name=ID '<-' value=Data
 ;
 
 KV:
@@ -115,7 +123,7 @@ CodeBlockRef:
 ;
 
 CodeWords:
-  Data | CodeWord | CodeWordWRef | CodeWordSpecial | CodeBlock | CodeBlockRef
+  Data | CodeWord | CodeWordWRef | CodeWordSpecial | CodeBlock | CodeBlockRef | CodeWordWReferenceOnModule
 ;
 
 CodeWordModifyer:
@@ -126,12 +134,20 @@ CodeWordSpecial:
   '++' | '--' | '==' | '<=' | '=>' | '<' | '>' | '===' | '+++' | '---'
 ;
 
+CodeWordReferenceOnModule:
+    '->'
+;
+
 CodeWordRef:
-  '::' | '->' | '<-'
+  '::'
 ;
 
 CodeWord:
   prefix=CodeWordModifyer? word=ID? suffix=CodeWordModifyer? param=CurryParam?
+;
+
+CodeWordWReferenceOnModule:
+  module=ID CodeWordReferenceOnModule fun=ID
 ;
 
 CodeWordWRef:

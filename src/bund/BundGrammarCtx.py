@@ -12,7 +12,12 @@ class BundGrammarCtx:
             for e in model.env:
                 for ei in e.envstatement:
                     if ei.type.lower() == 'module':
-                        self.loadModule(ei.name, ei.param)
+                        self.loadModule(ei.name, ei.param, ei.real_name)
+                    elif ei.type.lower() == 'python':
+                        print(ei.name)
+                        self.loadPythonModule(ei.name, ei.param, ei.real_name)
+                    else:
+                        pass
     def process_context(self):
         for mm in self.models:
             model = self.models[mm]

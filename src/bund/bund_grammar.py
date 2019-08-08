@@ -22,7 +22,15 @@ EnvironmentElement:
 ;
 
 EnvStatement:
-  name=ID "is" type=ID("[" param=BASETYPE "]")?
+  name=/\w+(\.\w+)*/ "is" type=EnvStatementType("[" param=BASETYPE "]")? ("as" real_name=ID)?
+;
+
+EnvStatementType:
+  "module" | "python"
+;
+
+EnvName:
+  name+=ID['.']
 ;
 
 Context:
@@ -116,7 +124,7 @@ CodeBlockRef:
 ;
 
 CodeWords:
-  Data | CodeWord | CodeWordWRef | CodeWordSpecial | CodeBlock | CodeBlockRef
+  Data | CodeWord | CodeWordWRef | CodeWordSpecial | CodeBlock | CodeBlockRef | CodeWordWReferenceOnModule
 ;
 
 CodeWordModifyer:
@@ -127,12 +135,20 @@ CodeWordSpecial:
   '++' | '--' | '==' | '<=' | '=>' | '<' | '>' | '===' | '+++' | '---'
 ;
 
+CodeWordReferenceOnModule:
+    '->'
+;
+
 CodeWordRef:
-  '::' | '->' | '<-'
+  '::'
 ;
 
 CodeWord:
   prefix=CodeWordModifyer? word=ID? suffix=CodeWordModifyer? param=CurryParam?
+;
+
+CodeWordWReferenceOnModule:
+  module=ID CodeWordReferenceOnModule fun=ID
 ;
 
 CodeWordWRef:

@@ -5,6 +5,5 @@
 ;;
 
 [env
-  time   is module
-  string is module["../../examples/string.bund"]
+  bund.org.bund.time is python as time
 ;;

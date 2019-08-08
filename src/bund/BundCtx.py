@@ -23,11 +23,19 @@ class BundCtx:
         self.data[name] = bund2python(val)
     def registerVar(self, name, val):
         self.var[name] = bund2python(val)
-    def __getitem__(self, key):
-        if key in self.data:
-            return self.data[key]
+    def getFromRel(self, name, name_of_dat):
+        try:
+            d = getattr(self, name_of_dat)
+        except AttributeError:
+            return None
+        if name in d:
+            return d[name]
         else:
             if self.parent:
-                return self.parent[key]
+                return self.getFromRel(name, name_of_dat)
             else:
                 return None
+    def getEnv(self, name):
+        return self.getFromRel(name, "env")
+    def __getitem__(self, key):
+        return self.getFromRel(key, "data")
