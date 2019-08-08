@@ -26,6 +26,20 @@ class BundGrammarQueue:
                 return None
         else:
             return self.q[name]
+    def push(self, data):
+        if self.default_queue_name in self.q:
+            self.q[self.default_queue_name].put_nowait(data)
+        else:
+            return False
+        return True
+    def pull(self):
+        if self.default_queue_name in self.q:
+            try:
+                data = self.q[self.default_queue_name].get()
+            except queue.Empty:
+                return None
+            return data
+        return None
     def createQueue(self, name):
         if name in self.q:
             return False
