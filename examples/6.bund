@@ -1,0 +1,14 @@
+/* Channel test */
+
+Six is
+  [in
+    passwd is file
+      name <- "/etc/passwd"
+    ;;
+  ;;
+  [out
+    tmp1 is tmpfile
+      name <- "file"
+    ;;
+  ;;
+;;

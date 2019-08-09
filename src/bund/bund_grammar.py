@@ -31,7 +31,7 @@ EnvStatementType:
 
 Context:
   name=ID 'is'
-    statements+=Statement
+    statements*=Statement
   ';;'
 ;
 
@@ -69,13 +69,17 @@ OutBlockDecl:
 ;
 
 ChannelDefs:
-  name=ID "is" type=ChannelType
-    attrs += ChannelAttrs[/,|;|(\s)*|(\n)*/]
+  btype=ChannelBlockType? name=ID "is" type=ChannelType
+    attrs *= ChannelAttrs[/,|;|(\s)*|(\n)*/]
   ";;"
 ;
 
 ChannelType:
-  "file" | "pipe" | "list" | "queue"
+  "file" | "tmpfile" | "pipe" | "list" | "queue" | "string"
+;
+
+ChannelBlockType:
+  "block" | "text"
 ;
 
 ChannelAttrs:
@@ -116,15 +120,15 @@ CodeBlock:
 ;
 
 CodeBlockRef:
-  /'|&/"(" words+=CodeWords ")"
+  "&(" words+=CodeWords ")"
 ;
 
 CodeWords:
-  Data | CodeWord | CodeWordCmd | CodeWordWRef | CodeWordSpecial | CodeBlock | CodeBlockRef | CodeWordWReferenceOnModule
+  Data | CodeWord | CodeWordSpecial | CodeWordModifyer | CodeBlock | CodeBlockRef | CodeWordWReferenceOnModule | CodeExecute
 ;
 
 CodeWordModifyer:
-  '+' | '-' | '*' | '&' | '=' | '?' | '!' | '$' | '@' | '%' | '^'
+  '+' | '-' | '*' | '&' | '=' | '?' | '!' | '$' | '@' | '%' | '^' | '|'
 ;
 
 CodeWordSpecial:
@@ -135,28 +139,22 @@ CodeWordReferenceOnModule:
     '->'
 ;
 
-CodeWordRef:
-  '::'
-;
 
 CodeWord:
-  prefix=CodeWordModifyer? word=ID? suffix=CodeWordModifyer? param=CurryParam?
-;
-
-CodeWordCmd:
-  "(" cmd=CodeWordModifyer ")"
+  prefix=CodeWordModifyer? word=ID suffix=CodeWordModifyer? param=CurryParam?
 ;
 
 CodeWordWReferenceOnModule:
   module=ID CodeWordReferenceOnModule fun=ID
 ;
 
-CodeWordWRef:
-  ':' base=ID CodeWordRef word=ID
-;
 
 CurryParam:
   "@" param=Data
+;
+
+CodeExecute:
+  "." name=ID?
 ;
 
 Comment:

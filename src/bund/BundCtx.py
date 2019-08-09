@@ -21,6 +21,7 @@ class BundCtx:
         return self.ctx[name]
     def registerData(self, name, val):
         self.data[name] = bund2python(val)
+        print(self.data[name])
     def registerVar(self, name, val):
         self.var[name] = bund2python(val)
     def getFromRel(self, name, name_of_dat):
