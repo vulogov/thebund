@@ -58,20 +58,18 @@ CodeBlockDecl:
 
 InBlockDecl:
   '[in'
-    in_chan += ChannelDefs
+    in_chan += ChannelDefs[/,|;|(\s)*|(\n)*/]
   ';;'
 ;
 
 OutBlockDecl:
   '[out'
-    out_chan += ChannelDefs
+    out_chan += ChannelDefs[/,|;|(\s)*|(\n)*/]
   ';;'
 ;
 
 ChannelDefs:
-  btype=ChannelBlockType? name=ID "is" type=ChannelType
-    attrs *= ChannelAttrs[/,|;|(\s)*|(\n)*/]
-  ";;"
+  btype=ChannelBlockType? name=ChannelName("[" attr=Data "]")? "is" type=ChannelType ("as" ch_name=ID)?
 ;
 
 ChannelType:
@@ -80,6 +78,10 @@ ChannelType:
 
 ChannelBlockType:
   "block" | "text"
+;
+
+ChannelName:
+  ID | STRING
 ;
 
 ChannelAttrs:

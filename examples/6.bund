@@ -2,13 +2,10 @@
 
 Six is
   [in
-    passwd is file
-      name <- "/etc/passwd"
-    ;;
+    "/etc/passwd" is file as passwd
   ;;
   [out
-    tmp1 is tmpfile
-      name <- "file"
-    ;;
+    tmp1 is tmpfile,
+    tmp2 is tmpfile
   ;;
 ;;
