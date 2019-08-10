@@ -5,9 +5,11 @@
 class BundGrammarChannel:
     def __init__(self, args):
         self.args = {}
+        self.stream = None
         for k in args:
             self.args[k] = args[k]
-        self.stream = None
+            if k == 'stream':
+                self.stream = args[k]
     def read(self):
         return self.stream.read()
     def write(self, data):
