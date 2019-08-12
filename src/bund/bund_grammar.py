@@ -126,7 +126,7 @@ CodeBlockRef:
 ;
 
 CodeWords:
-  Data | CodeWord | CodeWordSpecial | CodeWordModifyer | CodeBlock | CodeBlockRef | CodeWordWReferenceOnModule | CodeExecute
+  Data | CodeWord | CodeWordSpecial | CodeWordModifyer | CodeBlock | CodeBlockRef | CodeWordWReferenceOnModule | CodeExecute | CodeWordsMonad
 ;
 
 CodeWordModifyer:
@@ -146,6 +146,10 @@ CodeWord:
   prefix=CodeWordModifyer? word=ID suffix=CodeWordModifyer? param=CurryParam?
 ;
 
+CodeWordNoParam:
+  prefix=CodeWordModifyer? word=ID suffix=CodeWordModifyer?
+;
+
 CodeWordWReferenceOnModule:
   module=ID CodeWordReferenceOnModule fun=ID
 ;
@@ -153,6 +157,16 @@ CodeWordWReferenceOnModule:
 
 CurryParam:
   "@" param=Data
+;
+
+CodeWordsMonad:
+  "#("
+     words += CodeWordMonad
+  ")" param=CurryParam?
+;
+
+CodeWordMonad:
+  CodeWordNoParam | CodeWordSpecial | CodeWordModifyer
 ;
 
 CodeExecute:
