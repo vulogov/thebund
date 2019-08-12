@@ -36,7 +36,7 @@ Context:
 ;
 
 Statement:
-  DataBlock | CodeBlockDecl | InBlockDecl | OutBlockDecl | VarBlock
+  DataBlock | CodeBlockDecl | CodeBlockMonadDecl | InBlockDecl | OutBlockDecl | VarBlock
 ;
 
 DataBlock:
@@ -54,6 +54,10 @@ VarBlock:
 
 CodeBlockDecl:
   name=ID 'is' codeblock=CodeBlock
+;
+
+CodeBlockMonadDecl:
+  name=ID 'is' codeblock=CodeWordsMonad
 ;
 
 InBlockDecl:
@@ -166,7 +170,7 @@ CodeWordsMonad:
 ;
 
 CodeWordMonad:
-  CodeWordNoParam | CodeWordSpecial | CodeWordModifyer
+  CodeWordNoParam | CodeWordSpecial | CodeWordModifyer | CodeWordWReferenceOnModule
 ;
 
 CodeExecute:
