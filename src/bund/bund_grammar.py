@@ -17,7 +17,7 @@ HistoryElementKV:
 
 EnvironmentElement:
   '[env'
-    envstatement += EnvStatement
+    envstatement += EnvStatement[/,|;|(\s)*|(\n)*/]
   ';;'
 ;
 
@@ -26,7 +26,7 @@ EnvStatement:
 ;
 
 EnvStatementType:
-  "module" | "python"
+  "module" | "python" | "log"
 ;
 
 Context:

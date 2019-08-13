@@ -15,6 +15,8 @@ class BundGrammarCtx:
                         self.loadModule(ei.name, ei.param, ei.real_name)
                     elif ei.type.lower() == 'python':
                         self.loadPythonModule(ei.name, ei.param, ei.real_name)
+                    elif ei.type.lower() == "log":
+                        self.registerLog(ei.name, ei.param, ei.real_name)
                     else:
                         pass
     def process_context(self):
