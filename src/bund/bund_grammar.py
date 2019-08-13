@@ -7,7 +7,7 @@ BundContexts:
 
 HistoryElement:
   '[history'
-    story*=HistoryElementKV
+    story+=HistoryElementKV[/,|;|(\s)*|(\n)*/]
   ';;'
 ;
 

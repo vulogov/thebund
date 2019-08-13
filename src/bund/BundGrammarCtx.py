@@ -5,7 +5,7 @@ from BundCtx import BundCtx
 
 class BundGrammarCtx:
     def __init__(self):
-        self.ctx = BundCtx()
+        self.ctx = BundCtx('__root__', None, self)
     def process_environment(self):
         for mm in self.models:
             model = self.models[mm]
@@ -25,11 +25,12 @@ class BundGrammarCtx:
             for ctx in model.contexts:
                 _ctx = self.ctx.createContext(ctx.name, self.ctx)
                 for statement in ctx.statements:
+                    self.log.debug("Found statement %s"%repr(statement))
                     if statement.__class__.__name__ == 'DataBlock':
                         for d in statement.definitions:
                             _ctx.registerData(d.name, d.value)
                     if statement.__class__.__name__ == 'VarBlock':
                         for d in statement.definitions:
                             _ctx.registerVar(d.name, d.value)
-                    else:
-                        pass
+                    if statement.__class__.__name__ == 'CodeBlockDecl':
+                        _ctx.registerCode(statement.name, statement.codeblock)

@@ -1,0 +1,11 @@
+/* Code blocks are important */
+
+Seven is
+  [data
+    ANSWER <- 42
+  ;;
+  Main is (
+    42
+    ANSWER
+  )
+;;
