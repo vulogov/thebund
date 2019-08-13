@@ -2,7 +2,9 @@
 ##
 ##
 import os
+import sys
 from BundData import bund2python
+from BundGrammarChannel import createStandardChannels, createInChannel, createOutChannel
 
 class BundCtx:
     def __init__(self, name='__root__', parent=None):
@@ -12,12 +14,16 @@ class BundCtx:
         self.data = {}
         self.var  = {}
         self.env  = {}
+        self._in = {}
+        self._out = {}
         self.codeblocks = {}
         if self.name == '__root__':
             for k in os.environ:
                 self.data[k] = os.environ[k]
+            createStandardChannels(self)
     def createContext(self, name, parent):
-        self.ctx[name] = BundCtx(name, parent)
+        if name not in self.ctx:
+            self.ctx[name] = BundCtx(name, parent)
         return self.ctx[name]
     def registerData(self, name, val):
         self.data[name] = bund2python(val)
@@ -40,3 +46,18 @@ class BundCtx:
         return self.getFromRel(name, "env")
     def __getitem__(self, key):
         return self.getFromRel(key, "data")
+    def getInChannel(self, name):
+        return self.getFromRel(name, "_in")
+    def getOutChannel(self, name):
+        return self.getFromRel(name, "_out")
+    def registerInChannel(self, btype, name,  attr, ch_type, ch_name):
+        createInChannel(self, btype, name,  attr, ch_type, ch_name)
+    def registerOutChannel(self, btype, name,  attr, ch_type, ch_name):
+        createOutChannel(self, btype, name,  attr, ch_type, ch_name)
+    def __call__(self, name):
+        if name in self.ctx:
+            return self.ctx[name]
+        else:
+            for n in self.ctx[n]:
+                return self.ctx[n].__call__(name)
+        return None

@@ -40,4 +40,6 @@ if __name__ == '__main__':
 
     bg.process_history()
     bg.process_environment()
+    bg.process_channels()
     bg.process_context()
+    print(bg.ctx("Six").getInChannel("passwd"))
