@@ -4,6 +4,9 @@ Seven is
   [data
     ANSWER <- 42
   ;;
+  Another is (
+    :Add 2 2 ;
+  )
   Main is (
     42
     ANSWER

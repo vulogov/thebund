@@ -130,7 +130,7 @@ CodeBlockRef:
 ;
 
 CodeWords:
-  Data | CodeWord | CodeWordSpecial | CodeWordModifyer | CodeBlock | CodeBlockRef | CodeWordWReferenceOnModule | CodeExecute | CodeWordsMonad
+  Data | CodeWord | CodeWordSpecial | CodeWordModifyer | CodeBlock | CodeBlockRef | CodeWordWReferenceOnModule | CodeExecute | CodeWordLazy | CodeLazyEval | CodeWordsMonad
 ;
 
 CodeWordModifyer:
@@ -163,6 +163,10 @@ CurryParam:
   "@" param=Data
 ;
 
+CodeWordLazy:
+  ":" word=CodeWordMonad
+;
+
 CodeWordsMonad:
   "#("
      words += CodeWordMonad
@@ -176,6 +180,10 @@ CodeWordMonad:
 CodeExecute:
   "." name=ID?
 ;
+
+CodeLazyEval:
+  ";" name=ID?
+ ;
 
 Comment:
   /\/\*.*\*\/|\/\/.*$/
