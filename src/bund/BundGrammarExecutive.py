@@ -20,11 +20,28 @@ class BundGrammarExecutive:
             t, code = C(name)
         if t not in [1]:
             return False
-        return self._e(code)
+        res = self._e(code)
+        while True:
+            res = self.pull()
+            if not res:
+                break
+            print("*",res)
     def _e(self, c):
         if len(c) == 0:
             return
-        self._current = c[:1]
+        self._current = c[0]
         self._rest = c[1:]
-        print(self._current)
+        self.log.debug("{} is here", self._current)
+        if isinstance(self._current, int):
+            self.push(self._current)
+        elif isinstance(self._current, float):
+            self.push(self._current)
+        elif isinstance(self._current, bool):
+            self.push(self._current)
+        elif isinstance(self._current, list):
+            self.push(self._current)
+        elif isinstance(self._current, dict):
+            self.push(self._current)
+        else:
+            self.log.debug("%s detected"%self._current)
         return self._e(c[1:])

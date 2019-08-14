@@ -35,7 +35,7 @@ class BundGrammarQueue:
     def pull(self):
         if self.default_queue_name in self.q:
             try:
-                data = self.q[self.default_queue_name].get()
+                data = self.q[self.default_queue_name].get_nowait()
             except queue.Empty:
                 return None
             return data
