@@ -1,6 +1,7 @@
 ##
 ##
 ##
+from BundData import CODEBLOCKREF,CODEBLOCK,CODEWORDLAZY,CODEWORDLAZYEVAL
 
 class BundGrammarExecutive:
     def __init__(self):
@@ -42,6 +43,44 @@ class BundGrammarExecutive:
             self.push(self._current)
         elif isinstance(self._current, dict):
             self.push(self._current)
+        elif isinstance(self._current, tuple):
+            _code_type, _c = self._current
+            if _code_type == CODEBLOCK:
+                self._e(_c)
+            elif _code_type == CODEBLOCKREF:
+                self.push((_code_type, _c))
+            elif _code_type == CODEWORDLAZY:
+                self.push((_code_type, _c))
+            elif _code_type == CODEWORDLAZYEVAL:
+                self.lazy()
         else:
             self.log.debug("%s detected"%self._current)
         return self._e(c[1:])
+    def mkWord(self, w):
+        res = ""
+        if w.prefix:
+            res+=w.prefix
+        if w.word:
+            res+=w.word
+        if w.suffix:
+            res+=w.suffix
+        return res
+    def lazy(self):
+        _p = []
+        w = None
+        while True:
+            d = self.pull()
+            if d == None:
+                self.log.error("Requested a lazy evaluation, but stack is exausted")
+                break
+            if isinstance(d, tuple) and d[0] == CODEWORDLAZY:
+                w = d[1]
+                break
+            else:
+                _p.append(d)
+        _p.reverse()
+        _p = tuple(_p)
+        if w:
+            if w.__class__.__name__ == 'CodeWordNoParam':
+                w = self.mkWord(w)
+            self.log.debug("Lazy {} ({})", w, _p)

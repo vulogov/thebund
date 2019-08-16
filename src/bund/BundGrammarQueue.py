@@ -7,7 +7,7 @@ class BundGrammarQueue:
     def __init__(self):
         self.q = {}
         self.default_queue_name = "__root__"
-        self.createQueue("__root__")
+        self.createLIFO("__root__")
     def queue(self, name, auto_create=True):
         if name not in self.q:
             if auto_create:

@@ -10,5 +10,6 @@ Seven is
   Main is (
     42
     ANSWER
+    :Add 2 2 ;
   )
 ;;

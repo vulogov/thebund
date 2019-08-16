@@ -3,6 +3,11 @@
 ##
 import types
 
+CODEBLOCKREF    = 0
+CODEBLOCK        = 1
+CODEWORDLAZY     = 2
+CODEWORDLAZYEVAL = 3
+
 def bund2python(bund_data):
     if type(bund_data) in [type(0), type(""), type(0.0)]:
         return bund_data
@@ -20,10 +25,15 @@ def bund2python(bund_data):
         _d = []
         for w in bund_data.words:
             _d.append(bund2python(w))
-        return (0,_d)
+        return (CODEBLOCKREF,_d)
     if bund_data.__class__.__name__ == "CodeBlock":
         _d = []
         for w in bund_data.words:
             _d.append(bund2python(w))
-        return (1,_d)
+        return (CODEBLOCK,_d)
+    if bund_data.__class__.__name__ == "CodeWordLazy":
+        return (CODEWORDLAZY, bund_data.word)
+    if bund_data.__class__.__name__ == "CodeLazyEval":
+        return (CODEWORDLAZYEVAL, bund_data.name)
+
     return bund_data
