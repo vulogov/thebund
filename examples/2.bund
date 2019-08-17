@@ -18,3 +18,7 @@ First is
     BOOLVAL <- True
   ;;
 ;;
+
+##
+## Hashtag comments at the beginning of line is fine too
+##
