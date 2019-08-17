@@ -52,12 +52,20 @@ VarBlock:
   ';;'
 ;
 
+ArityDecl:
+  "|" a+=ArityElement[/,|;|(\s)*|(\n)*/] "|"
+;
+
+ArityElement:
+  "_" | "str" | "int" | "float" | "list" | "dict" | "code"
+;
+
 CodeBlockDecl:
   name=ID 'is' codeblock=CodeBlock
 ;
 
 CodeBlockMonadDecl:
-  name=ID 'is' codeblock=CodeWordsMonad
+  name=ID  arity=ArityDecl? 'is' codeblock=CodeWordsMonad
 ;
 
 InBlockDecl:
@@ -122,11 +130,11 @@ Data:
 ;
 
 CodeBlock:
-  "(" words+=CodeWords ")"
+  arity=ArityDecl? "(" words+=CodeWords ")"
 ;
 
 CodeBlockRef:
-  "&(" words+=CodeWords ")"
+  arity=ArityDecl? "&(" words+=CodeWords ")"
 ;
 
 CodeWords:
@@ -168,7 +176,7 @@ CodeWordLazy:
 ;
 
 CodeWordsMonad:
-  "#("
+  arity=ArityDecl? "#("
      words += CodeWordMonad
   ")" param=CurryParam?
 ;

@@ -4,6 +4,7 @@
 import os
 import sys
 from BundData import bund2python
+from BundGrammarSys import parseArgv
 from BundGrammarChannel import createStandardChannels, createInChannel, createOutChannel
 
 class BundCtx:
@@ -22,6 +23,8 @@ class BundCtx:
             for k in os.environ:
                 self.data[k] = os.environ[k]
             createStandardChannels(self)
+            self.data['argv'] = parseArgv()
+            print("argv is {}", self.data['argv'])
     def createContext(self, name, parent):
         if name not in self.ctx:
             self.ctx[name] = BundCtx(name, parent, self.parser)

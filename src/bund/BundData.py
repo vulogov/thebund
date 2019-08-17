@@ -25,12 +25,12 @@ def bund2python(bund_data):
         _d = []
         for w in bund_data.words:
             _d.append(bund2python(w))
-        return (CODEBLOCKREF,_d)
+        return (CODEBLOCKREF,_d, bund_data.arity)
     if bund_data.__class__.__name__ == "CodeBlock":
         _d = []
         for w in bund_data.words:
             _d.append(bund2python(w))
-        return (CODEBLOCK,_d)
+        return (CODEBLOCK,_d, bund_data.arity)
     if bund_data.__class__.__name__ == "CodeWordLazy":
         return (CODEWORDLAZY, bund_data.word)
     if bund_data.__class__.__name__ == "CodeLazyEval":

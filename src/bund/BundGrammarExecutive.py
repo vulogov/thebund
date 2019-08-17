@@ -16,18 +16,19 @@ class BundGrammarExecutive:
     def EVAL(self, name):
         if "->" in name:
             mod, name = name.split("->")
-            t, code = self.CB(mod, name)
+            t, code, arity = self.CB(mod, name)
         else:
-            t, code = C(name)
+            t, code, arity = C(name)
         if t not in [1]:
             return False
-        res = self._e(code)
+        res = self._e(arity, code)
         while True:
             res = self.pull()
             if not res:
                 break
             print("*",res)
-    def _e(self, c):
+    def _e(self, arity, c):
+
         if len(c) == 0:
             return
         self._current = c[0]
@@ -55,7 +56,7 @@ class BundGrammarExecutive:
                 self.lazy()
         else:
             self.log.debug("%s detected"%self._current)
-        return self._e(c[1:])
+        return self._e(arity, c[1:])
     def mkWord(self, w):
         res = ""
         if w.prefix:

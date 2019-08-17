@@ -4,10 +4,10 @@ Seven is
   [data
     ANSWER <- 42
   ;;
-  Another is (
+  Another  is |_,_| (
     :Add 2 2 ;
   )
-  Main is (
+  Main is |_| (
     42
     ANSWER
     :Add 2 2 ;
