@@ -138,7 +138,7 @@ CodeBlockRef:
 ;
 
 CodeWords:
-  Data | CodeWord | CodeWordSpecial | CodeWordModifyer | CodeBlock | CodeBlockRef | CodeWordWReferenceOnModule | CodeExecute | CodeWordLazy | CodeLazyEval | CodeWordsMonad
+  Data | CodeWord | CodeWordWReferenceOnModule | CodeWordSpecial | CodeWordModifyer | CodeBlock | CodeBlockRef |  CodeExecute | CodeWordLazy | CodeLazyEval | CodeWordsMonad
 ;
 
 CodeWordModifyer:
@@ -163,7 +163,7 @@ CodeWordNoParam:
 ;
 
 CodeWordWReferenceOnModule:
-  module=ID CodeWordReferenceOnModule fun=ID
+  "/" module=ID CodeWordReferenceOnModule fun=ID
 ;
 
 

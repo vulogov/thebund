@@ -24,16 +24,14 @@ class BundCtx:
                 self.data[k] = os.environ[k]
             createStandardChannels(self)
             self.data['argv'] = parseArgv()
-            print("argv is {}", self.data['argv'])
     def createContext(self, name, parent):
         if name not in self.ctx:
             self.ctx[name] = BundCtx(name, parent, self.parser)
         return self.ctx[name]
     def registerData(self, name, val):
-        self.data[name] = bund2python(val)
-        print(self.data[name])
+        self.data[name] = bund2python(self, val)
     def registerVar(self, name, val):
-        self.var[name] = bund2python(val)
+        self.var[name] = bund2python(self, val)
     def getFromRel(self, name, name_of_dat):
         try:
             d = getattr(self, name_of_dat)
@@ -43,7 +41,7 @@ class BundCtx:
             return d[name]
         else:
             if self.parent:
-                return self.getFromRel(name, name_of_dat)
+                return self.parent.getFromRel(name, name_of_dat)
             else:
                 return None
     def getFromUp(self, name, name_of_dat):
@@ -78,6 +76,18 @@ class BundCtx:
         if module in root.ctx:
             if name in root.ctx[module].codeblocks:
                 return root.ctx[module].codeblocks[name]
+    def _GET(self, attr, module, name):
+        root = self.getParent()
+        if module in root.ctx:
+            try:
+                d = getattr(root.ctx[module], attr)
+            except AttributeError:
+                return None
+            if name in d:
+                return d[name]
+        return None
+    def DATA(self, module, name):
+        return self._GET("data", module, name)
     def registerInChannel(self, btype, name,  attr, ch_type, ch_name):
         createInChannel(self, btype, name,  attr, ch_type, ch_name)
     def registerOutChannel(self, btype, name,  attr, ch_type, ch_name):
@@ -96,5 +106,4 @@ class BundCtx:
     def registerCode(self, name, c):
         if name in self.codeblocks:
             self.parser.log.debug("%s already been registered. Overwrite!"%name)
-        self.codeblocks[name] = bund2python(c)
-        print(self.name, self.codeblocks)
+        self.codeblocks[name] = bund2python(self, c)
