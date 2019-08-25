@@ -88,6 +88,8 @@ class BundCtx:
         return None
     def DATA(self, module, name):
         return self._GET("data", module, name)
+    def VAR(self, module, name):
+        return self._GET("var", module, name)
     def registerInChannel(self, btype, name,  attr, ch_type, ch_name):
         createInChannel(self, btype, name,  attr, ch_type, ch_name)
     def registerOutChannel(self, btype, name,  attr, ch_type, ch_name):

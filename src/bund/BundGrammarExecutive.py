@@ -1,7 +1,8 @@
 ##
 ##
 ##
-from BundData import CODEBLOCKREF,CODEBLOCK,CODEWORDLAZY,CODEWORDLAZYEVAL
+from BundData import bund2python
+from BundData import CODEBLOCKREF,CODEBLOCK,CODEWORDLAZY,CODEWORDLAZYEVAL,CODEWORDLATEBIND
 
 class BundGrammarExecutive:
     def __init__(self):
@@ -45,9 +46,20 @@ class BundGrammarExecutive:
         elif isinstance(self._current, dict):
             self.push(self._current)
         elif isinstance(self._current, tuple):
-            _code_type, _c = self._current
+            if len(self._current) == 2:
+                _code_type, _c = self._current
+            else:
+                self.error("Unknown arity in {}", self._current)
             if _code_type == CODEBLOCK:
                 self._e(_c)
+            elif _code_type == CODEWORDLATEBIND:
+                module, n = _c
+                d = self.ctx.VAR(module, n)
+                if not d:
+                    d = self.ctx.DATA(module, n)
+                    if not d:
+                        self.log.error("{}->{} can not be late-binded as it unknown.", module, n)
+                self.push(bund2python(self.ctx, d))
             elif _code_type == CODEBLOCKREF:
                 self.push((_code_type, _c))
             elif _code_type == CODEWORDLAZY:
