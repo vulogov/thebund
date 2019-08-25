@@ -163,7 +163,7 @@ CodeWordNoParam:
 ;
 
 CodeWordWReferenceOnModule:
-  "/" module=ID CodeWordReferenceOnModule fun=ID
+  ":"module=ID CodeWordReferenceOnModule fun=ID
 ;
 
 

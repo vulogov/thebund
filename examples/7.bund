@@ -10,7 +10,7 @@ Seven is
   Main is |_| (
     42
     ANSWER
-    /First->PI
+    :First->PI
     :Add 2 2 ;
   )
 ;;

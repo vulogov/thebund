@@ -7,10 +7,12 @@ CODEBLOCKREF    = 0
 CODEBLOCK        = 1
 CODEWORDLAZY     = 2
 CODEWORDLAZYEVAL = 3
+CODEWORDLATEBIND = 4
+
 
 def bund2python(ctx, bund_data):
     if type(bund_data) == type("") and ctx[bund_data] != None:
-        return ctx[bund_data]
+        return bund2python(ctx, ctx[bund_data])
     #if type(bund_data) == type("") and "->"
     if type(bund_data) in [type(0), type(""), type(0.0)]:
         return bund_data
@@ -43,8 +45,5 @@ def bund2python(ctx, bund_data):
     if bund_data.__class__.__name__ == "CodeLazyEval":
         return (CODEWORDLAZYEVAL, bund_data.name)
     if bund_data.__class__.__name__ == "CodeWordWReferenceOnModule":
-        res = ctx.DATA(bund_data.module, bund_data.fun)
-        if not res:
-            ctx.parser.log.warning("Data: /{}->{} not found for an early binding", bund_data.module, bund_data.fun)
-        return res
+        return (CODEWORDLATEBIND, (bund_data.module, bund_data.fun))
     return bund_data
