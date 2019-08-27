@@ -31,7 +31,8 @@ class BundGrammarExecutive:
     def _e(self, arity, c):
 
         if len(c) == 0:
-            return
+            self.error("There is nothing to do for me here")
+            return None
         self._current = c[0]
         self._rest = c[1:]
         self.log.debug("{} is here", self._current)
@@ -50,6 +51,7 @@ class BundGrammarExecutive:
                 _code_type, _c = self._current
             else:
                 self.error("Unknown arity in {}", self._current)
+                return None
             if _code_type == CODEBLOCK:
                 self._e(_c)
             elif _code_type == CODEWORDLATEBIND:
